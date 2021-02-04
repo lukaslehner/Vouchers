@@ -1,11 +1,11 @@
 ###### Data preparation for matching
 library(xlsx)
+library(dplyr)
 
 ### 0. Settings  ---------------------------------
 file_used = c("1-Wave.xlsx")
 
-
-### 1. Main covariate file and merge ---------------------------------
+ ### 1. Main covariate file and merge ---------------------------------
 
 # reading in participant file from source data
 wave_1_raw = paste(data_path, file_used, sep = "") %>% 
@@ -40,8 +40,26 @@ wave_1 =
          education, 
          German_ok)
 
+#import isco and recode
+library(readxl)
+file_used=c("isco-help.xlsx")
+isco<-paste(data_path, file_used, sep = "") %>% 
+  read_excel( ,col_types = c("numeric", "numeric", "text") )
+
+isco$letzter.Beruf.6.ST<-isco$BERUF_6
+isco$BERUF_6<-NULL
+
+data<-left_join(wave_1_raw,isco,by=c("letzter.Beruf.6.ST"),copy=TRUE)
+data$personal_id = as.integer(data$PST_Nummer)
+data<-data%>%select(personal_id,letzter.Beruf.6.ST,ISCO08_1,ISCO08_1_BEZ)
+
+wave_1<-left_join(wave_1,data,by=c("personal_id"))
+
+#ein paar sind noch nicht zugeordnet(32), keine info in tabelle (könnte aber schon noch zugeordnet werden, wenn wirs doch noch brauchen, bisschen mühsam)
+rm(data,isco)
+#
 
 wave_1 %>% 
-  write_csv(paste(data_path,
+  readr::write_csv(paste(data_path,
                   "wave_1.csv",
                   sep = ""))
