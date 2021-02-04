@@ -25,6 +25,6 @@ for (group_nr in nr) {
 participant_assignment_full %>%
   filter(group == group_nr) %>%
   select(personal_id) %>%
-  write_csv(paste0(data_out, "TeilnehmerInnen_Gruppe_$group_nr.csv"))
+  write_csv(paste0(data_out, "Gruppe_$group_nr.csv"))
 }
 
