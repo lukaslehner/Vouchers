@@ -17,6 +17,11 @@ wave_1 =
   mutate(
     personal_id = as.integer(PST_Nummer),
     counselor_id = as.integer(APL.anonym),
+    rgs_id = as.integer(GS.PST),
+    region=case_when(GS.PST==301 | GS.PST==317|GS.PST==326|GS.PST==328|GS.PST==3310|GS.PST==333~"Mo",
+                     GS.PST==311 | GS.PST==313|GS.PST==315|GS.PST==332|GS.PST==335~"Wa",
+                     GS.PST==3080 | GS.PST==312|GS.PST==314|GS.PST==319~"We",
+                     GS.PST==304 | GS.PST==306|GS.PST==321|GS.PST==323|GS.PST==329|GS.PST==334~"In"),
     nationality_AUT = as.integer(Nation == "A"),
     male = as.integer(Geschlecht == "M"),
     agegr= case_when(Alter<35~"y",
@@ -26,7 +31,6 @@ wave_1 =
     education = as.integer((höchste.Ausbildung != "PS") & (höchste.Ausbildung != "PO")), # higher than Pflichtschule
     age = Alter , 
     medical_condition = as.integer(Beguenstigung != "-"), # employment relevant health condition
-    education = as.integer((Deutschkenntnisse != "PS") & (Deutschkenntnisse != "PO")), # more than Pflichtschule
     health_condition = as.integer(Beguenstigung != "-"), # employment relevant health condition
     German_ok = as.integer((Deutschkenntnisse != "K") & (Deutschkenntnisse != "A")
                          & (Deutschkenntnisse != "A1") & (Deutschkenntnisse != "A2")
@@ -40,10 +44,12 @@ wave_1$German_ok[is.na(wave_1$Deutschkenntnisse)]<-1
 wave_1$nationality_AUT[wave_1$Nation=="X"]<-NA #schon oder?
 
 wave_1=wave_1%>%select(personal_id,
-                counselor_id, 
+                counselor_id,
+                rgs_id,
                 nationality_AUT, 
                 male,
                 agegr,
+                region,
                 marginal_employment, 
                 education, 
                 age, 
@@ -65,7 +71,7 @@ data$personal_id = as.integer(data$PST_Nummer)
 data<-data%>%select(personal_id,letzter.Beruf.6.ST,ISCO08_1,ISCO08_1_BEZ)
 
 wave_1<-left_join(wave_1,data,by=c("personal_id"))
-
+summary(wave_1$ISCO08_1)
 #ein paar sind noch nicht zugeordnet(32), keine info in tabelle (könnte aber schon noch zugeordnet werden, wenn wirs doch noch brauchen, bisschen mühsam)
 rm(data,isco)
 #
