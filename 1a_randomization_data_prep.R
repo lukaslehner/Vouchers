@@ -22,7 +22,7 @@ wave_1 =
     marginal_employment = as.integer(GER != "-"),
     education = as.integer((höchste.Ausbildung != "PS") & (höchste.Ausbildung != "PO")), # higher than Pflichtschule
     age = Alter , 
-    health_condition = as.integer(Beguenstigung != "-"), # employment relevant health condition
+    medical_condition = as.integer(Beguenstigung != "-"), # employment relevant health condition
     education = as.integer((Deutschkenntnisse != "PS") & (Deutschkenntnisse != "PO")), # more than Pflichtschule
     German_ok = as.integer((Deutschkenntnisse != "K") & (Deutschkenntnisse != "A")
                          & (Deutschkenntnisse != "A1") & (Deutschkenntnisse != "A2")
@@ -36,7 +36,7 @@ wave_1 =
          marginal_employment, 
          education, 
          age, 
-         health_condition,
+         medical_condition,
          education, 
          German_ok)
 
