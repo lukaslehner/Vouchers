@@ -2,7 +2,7 @@ library(tidyverse)
 library(lubridate)
 
 home <- getwd()
-data_out <- paste0(home, "/Data/")
+data_out <- paste0(home, "../Data/")
 
 # 1. Stratified randomization  -------- 
 

@@ -53,6 +53,7 @@ wave_1$strata = with(wave_1, reorder(strata, no_rows, median))
 wave_1 %>%
   ggplot( aes(x=strata))+geom_bar()+labs(x="",y="observations",title = "Strata sizes")+
   theme_minimal()+theme(axis.text.x=element_blank())
+ggsave("strataplot.png", path=data_out)
 
 #z-test between column percents each compared with each
 table11<-wave_1%>%tab_cells(educ_f,agegr_f,region_f,male_f,as.factor(nationality_AUT),as.factor(health_condition),
@@ -65,26 +66,23 @@ print(xtable(table11,digits=1,include.colnames=FALSE,caption = "Treatment Balanc
 library(arsenal)
 tab1 <- tableby(group_nr ~ male_f + agegr_f+ educ_f+region_f+as.factor(nationality_AUT)+as.factor(health_condition)+
                 as.factor(marginal_employment)+as.factor(German_ok), data=wave_1)
-
+setwd(data_out)
 capture.output(summary(tab1), file="Test.md")
 
 ## Convert R Markdown Table to LaTeX
 require(knitr)
 require(rmarkdown)
 render("Test.md", pdf_document(keep_tex=TRUE))
-
+setwd("..")
 # exporting files for AMS; one for each wave
 library("writexl")
-
-
-write_xlsx(wave_1,paste(data_path,"wave_1_assignment.xlsx", sep="/"))
 
 T1<-wave_1%>%ungroup()%>%filter(group_nr=="T1")%>%select(personal_id)
 T2<-wave_1%>%ungroup()%>%filter(group_nr=="T2")%>%select(personal_id)
 T3<-wave_1%>%ungroup()%>%filter(group_nr=="T3")%>%select(personal_id)
 T4<-wave_1%>%ungroup()%>%filter(group_nr=="T4")%>%select(personal_id)
 
-write_xlsx(T1,paste(data_path,"wave_1_Control.xlsx", sep="/"))
-write_xlsx(T2,paste(data_path,"wave_1_T1.xlsx", sep="/"))
-write_xlsx(T3,paste(data_path,"wave_1_T2.xlsx", sep="/"))
-write_xlsx(T4,paste(data_path,"wave_1_T3.xlsx", sep="/"))
+write_xlsx(T1,paste(data_out,"wave_1_Control.xlsx", sep="/"))
+write_xlsx(T2,paste(data_out,"wave_1_T1.xlsx", sep="/"))
+write_xlsx(T3,paste(data_out,"wave_1_T2.xlsx", sep="/"))
+write_xlsx(T4,paste(data_out,"wave_1_T3.xlsx", sep="/"))
