@@ -39,9 +39,9 @@ wave_1 =
     )
 
 #Korrekturen
-wave_1$education[wave_1$höchste.Ausbildung=="XX"]<-NA #was machen wir mit denen für die stratifizierung?
+wave_1$education[wave_1$höchste.Ausbildung=="XX"]<-NA 
 wave_1$German_ok[is.na(wave_1$Deutschkenntnisse)]<-1
-wave_1$nationality_AUT[wave_1$Nation=="X"]<-NA #schon oder?
+wave_1$nationality_AUT[wave_1$Nation=="X"]<-NA 
 
 wave_1=wave_1%>%select(personal_id,
                 counselor_id,
