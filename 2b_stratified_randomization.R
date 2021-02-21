@@ -72,12 +72,12 @@ tab1 <- tableby(group_nr ~ male_f + agegr_f+ educ_f+region_f+as.factor(nationali
                 as.factor(marginal_employment)+as.factor(German_ok), data=wave_2)
 summary(tab1, text=TRUE)
 setwd(data_out)
-capture.output(summary(tab1), file="Test.md")
+capture.output(summary(tab1), file="Test_w2.md")
 
 ## Convert R Markdown Table to LaTeX
 require(knitr)
 require(rmarkdown)
-render("Test.md", pdf_document(keep_tex=TRUE))
+render("Test_w2.md", pdf_document(keep_tex=TRUE))
 
 # exporting files for AMS; one for each wave
 library("writexl")

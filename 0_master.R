@@ -28,3 +28,11 @@ source("2a_randomization_data_prep.R")
 # Constructing the treatment assignment
 source("2b_stratified_randomization.R")
 
+#3- Wave 3 stratified randomization ---------
+
+# Data preparation for randomization
+source("3a_randomization_data_prep.R")
+
+# Constructing the treatment assignment
+source("3b_stratified_randomization.R")
+
