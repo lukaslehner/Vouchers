@@ -6,7 +6,8 @@ home <- getwd()
 data_out <- paste0(home, "/Data")
 setwd("./Vouchers")
 
-# 1. Wave 1 Stratified randomization  -------- 
+### First intervention ----------
+# 1- Wave 1 Stratified randomization  -------- 
 
 # data path for local data: switch between Anna and Lukas
 #  data_path = "V:/" # Lukas
@@ -35,4 +36,28 @@ source("3a_randomization_data_prep.R")
 
 # Constructing the treatment assignment
 source("3b_stratified_randomization.R")
+
+#4- stratified randomization w/o mail---------
+
+# Data preparation for randomization
+source("4a_randomization_data_prep.R")
+
+# Constructing the treatment assignment
+source("4b_stratified_randomization.R")
+
+#5- merge first intervention---------
+
+source("5_merge.R")
+
+
+### Second intervention ----------
+#6- stratified randomization---------
+
+# Data preparation for randomization
+source("6a_randomization_data_prep.R")
+
+# Constructing the treatment assignment
+source("6b_stratified_randomization.R")
+
+
 
