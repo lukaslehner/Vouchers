@@ -47,42 +47,21 @@ wave_3$letzter.Beruf.6.ST.x<-NULL
 
 #merge
 
-full_data<-bind_rows(wave_1,wave_2,wave_3)
+full_data_1<-bind_rows(wave_1,wave_2,wave_3)
 
-full_data$strata1<-as.factor(full_data$strata1)
-full_data$strata1[full_data$strata1=="2Q.NA"|full_data$strata1=="3Q.NA"|full_data$strata1=="4Q.NA"]<-NA
-summary(full_data$strata1)
+full_data_1$strata1<-as.factor(full_data_1$strata1)
+full_data_1$strata1[full_data_1$strata1=="2Q.NA"|full_data_1$strata1=="3Q.NA"|full_data_1$strata1=="4Q.NA"]<-NA
+summary(full_data_1$strata1)
 
-full_data$mail<-1
+full_data_1$mail<-1
 
 #export data_frame
-write_xlsx(full_data, paste(data_path,"full_data.xlsx",sep="/"))
-
-#join those without email
-file_used=c("wave_123_wo_assigned.xlsx")
-
-wave_123_wo<-paste(data_path, file_used, sep = "") %>% 
-  read.xlsx( , 1, encoding = "UTF-8")
-
-#clean
-wave_123_wo$letzter.Beruf.6.ST.y<-NULL
-wave_123_wo$letzter.Beruf.6.ST<-wave_123_wo$letzter.Beruf.6.ST.x
-wave_123_wo$letzter.Beruf.6.ST.x<-NULL
-
-#indicator for no email
-wave_123_wo$mail<-0
-
-wave_123_wo$strata1<-paste("nomail",wave_123_wo$strata, sep=".")
-wave_123_wo$strata1<-as.factor(wave_123_wo$strata1)
-summary(wave_123_wo$strata1)
-
-#join
-full_data_1<-bind_rows(full_data, wave_123_wo)
+write_xlsx(full_data_1, paste(data_path,"full_data_1.xlsx",sep="/"))
 
 #balance checks
 #z-test between column percents each compared with each
 table11<-full_data_1%>%tab_cells(educ_f,agegr_f,region_f,male_f,as.factor(unemp_dur),as.factor(nationality_AUT),as.factor(health_condition),
-                            as.factor(marginal_employment),as.factor(German_ok), as.factor(mail))%>%
+                            as.factor(marginal_employment),as.factor(German_ok))%>%
   tab_cols(group_nr)%>%tab_stat_cpct()%>%tab_last_sig_cpct()%>%tab_pivot(stat_position = "outside_rows")
 
 print(xtable(table11,digits=1,include.colnames=FALSE,caption = "Treatment Balance"),  include.rownames=FALSE, caption.placement = 'top')
@@ -90,7 +69,7 @@ print(xtable(table11,digits=1,include.colnames=FALSE,caption = "Treatment Balanc
 #Chi-squared test of difference between the groups
 library(arsenal)
 tab1 <- tableby(group_nr ~ male_f + agegr_f+ educ_f+region_f+as.factor(unemp_dur)+as.factor(nationality_AUT)+as.factor(health_condition)+
-                  as.factor(marginal_employment)+as.factor(German_ok)+as.factor(mail), data=full_data_1)
+                  as.factor(marginal_employment)+as.factor(German_ok), data=full_data_1)
 summary(tab1, text=TRUE)
 setwd(data_out)
 capture.output(summary(tab1), file="Test_f1.md")
@@ -110,5 +89,4 @@ full_data_1 %>% filter(!is.na(strata1))%>%
   theme_minimal()+theme(axis.text.x=element_blank())
 ggsave("strataplot_f1.png", path=data_out)
 
-#export data_frame
-write_xlsx(full_data_1, paste(data_path,"full_data_1.xlsx",sep="/"))
+

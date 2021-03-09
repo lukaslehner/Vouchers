@@ -37,21 +37,18 @@ source("3a_randomization_data_prep.R")
 # Constructing the treatment assignment
 source("3b_stratified_randomization.R")
 
-#4- stratified randomization w/o mail---------
+#4-merge intervention 1--------------
+source("4_merge.R")
+
+#5- stratified randomization w/o mail GF2Q-GF4Q---------
 
 # Data preparation for randomization
-source("4a_randomization_data_prep.R")
+source("5a_randomization_data_prep.R")
 
 # Constructing the treatment assignment
-source("4b_stratified_randomization.R")
+source("5b_stratified_randomization.R")
 
-#5- merge first intervention---------
-
-source("5_merge.R")
-
-
-### Second intervention ----------
-#6- stratified randomization---------
+#6- stratified randomization GF1J---------
 
 # Data preparation for randomization
 source("6a_randomization_data_prep.R")
@@ -59,5 +56,7 @@ source("6a_randomization_data_prep.R")
 # Constructing the treatment assignment
 source("6b_stratified_randomization.R")
 
+#7- merge second intervention---------
 
+source("7_merge.R")
 
