@@ -32,8 +32,8 @@ The scripts for experiment 1 are organized into 4 waves of treatment (scripts st
 
 ### 2. Experiment
 
-    1. Data preparation: *6a_randomization_data_prep.R*
-    2. Treatment assignment: *6b_stratified_randomization.R*
+1. Data preparation: *6a_randomization_data_prep.R*
+2. Treatment assignment: *6b_stratified_randomization.R*
 
 - *7_merge.R* merges the data.
 
